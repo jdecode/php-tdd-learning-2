@@ -6,7 +6,7 @@ class Sql
 {
 
     private $sql = '';
-    public function select($table, $columns = [], $order_by = [], $limit = [])
+    public function select($table, $columns = [], $order_by = [], $limit_offset = [])
     {
         $_columns = '*';
         if (count($columns)) {
@@ -14,17 +14,25 @@ class Sql
         }
         $this->sql = "SELECT $_columns FROM $table";
         $this->orderBy($order_by);
-        $this->limit($limit);
+        $this->limit($limit_offset);
 
         return $this->sql;
     }
 
-    public function limit($limit = [])
+    public function limit($limit_offset = [])
     {
-        if (empty($limit)) {
+        $limit = "LIMIT ALL";
+        $offset = "";
+        if (empty($limit_offset)) {
             return;
         }
-        $this->sql .= " LIMIT {$limit[0]}";
+        if (!empty($limit_offset[0]) && is_numeric($limit_offset[0]) && $limit_offset[0]) {
+            $limit = "LIMIT {$limit_offset[0]}";
+        }
+        if (!empty($limit_offset[1]) && is_numeric($limit_offset[1]) && $limit_offset[1]) {
+            $offset = " OFFSET {$limit_offset[1]}";
+        }
+        $this->sql .= " $limit$offset";
     }
 
     public function orderBy($order_by = [])

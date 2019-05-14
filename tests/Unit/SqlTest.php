@@ -72,4 +72,13 @@ class SqlTest extends TestCase
             $sql->select('products', [], [], [10])
         );
     }
+
+    public function testSelectWithLimitAndOffset()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT * FROM products LIMIT ALL OFFSET 10',
+            $sql->select('products', [], [], [null, 10])
+        );
+    }
 }
