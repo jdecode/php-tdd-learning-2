@@ -63,4 +63,13 @@ class SqlTest extends TestCase
             $sql->select('products', ['id', 'name'], [['id', 'desc']])
         );
     }
+
+    public function testSelectWithLimit()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT * FROM products LIMIT 10',
+            $sql->select('products', [], [], [10])
+        );
+    }
 }

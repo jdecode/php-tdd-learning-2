@@ -6,19 +6,28 @@ class Sql
 {
 
     private $sql = '';
-    public function select($table, $columns = [], $order_by = [])
+    public function select($table, $columns = [], $order_by = [], $limit = [])
     {
         $_columns = '*';
         if (count($columns)) {
             $_columns = implode($columns, ", ");
         }
         $this->sql = "SELECT $_columns FROM $table";
-        $this->columnSetting($order_by);
+        $this->orderBy($order_by);
+        $this->limit($limit);
 
         return $this->sql;
     }
 
-    public function columnSetting($order_by)
+    public function limit($limit = [])
+    {
+        if (empty($limit)) {
+            return;
+        }
+        $this->sql .= " LIMIT {$limit[0]}";
+    }
+
+    public function orderBy($order_by = [])
     {
 
         if (!empty($order_by)) {
