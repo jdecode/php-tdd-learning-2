@@ -81,4 +81,22 @@ class SqlTest extends TestCase
             $sql->select('products', [], [], [null, 10])
         );
     }
+
+    public function testSelectCount()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT *, COUNT("id") FROM products',
+            $sql->select('products', [], [], [], ["count", "id", "*"])
+        );
+    }
+
+    public function testSelectAgg()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT MAX("cost") FROM products',
+            $sql->select('products', [], [], [], ["max", "cost"])
+        );
+    }
 }
