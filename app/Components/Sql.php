@@ -6,17 +6,16 @@ class Sql
 {
 
     private $sql = '';
-    public function select($table, $columns = [], $order_by = [], $limit_offset = [], $agg_data = [], $group_by = [])
+    public function select($table, $columns = [], $order_by = [], $limit_offset = [], $agg_data = [], $group_by = [], $distinct = [])
     {
-        $this->sql = "SELECT " . $this->getColumns($columns, $agg_data) . " FROM $table";
+        $this->sql = "SELECT " . $this->getColumns($columns, $agg_data, $distinct) . " FROM $table";
         $this->groupBy($group_by);
         $this->orderBy($order_by);
         $this->limit($limit_offset);
-
         return $this->sql;
     }
 
-    public function getColumns($columns, $agg_data)
+    public function getColumns($columns = [], $agg_data = [], $distinct = [])
     {
         $_columns = '*';
         if (count($columns)) {

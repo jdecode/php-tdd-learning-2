@@ -108,4 +108,15 @@ class SqlTest extends TestCase
             $sql->select('products', [], [], [], ["max", "cost"], ["cost"])
         );
     }
+
+    /*
+    public function testSelectDistinct()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT DISTINCT name FROM products',
+            $sql->select('products', [], [], [], ["max", "cost"], ["cost"], ["distinct", ["name"]])
+        );
+    }
+    */
 }
