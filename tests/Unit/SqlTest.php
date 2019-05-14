@@ -23,7 +23,7 @@ class SqlTest extends TestCase
     {
         $sql = new Sql();
         $this->assertEquals(
-            'select * from products',
+            'SELECT * FROM products',
             $sql->select('products')
         );
     }
@@ -32,7 +32,7 @@ class SqlTest extends TestCase
     {
         $sql = new Sql();
         $this->assertEquals(
-            'select id, name from products',
+            'SELECT id, name FROM products',
             $sql->select('products', ['id', 'name'])
         );
     }
@@ -41,7 +41,7 @@ class SqlTest extends TestCase
     {
         $sql = new Sql();
         $this->assertEquals(
-            'select id, name from products order by id desc',
+            'SELECT id, name FROM products ORDER BY id DESC',
             $sql->select('products', ['id', 'name'], [['id', 'desc']])
         );
     }
@@ -50,8 +50,17 @@ class SqlTest extends TestCase
     {
         $sql = new Sql();
         $this->assertEquals(
-            'select id, name from products order by id desc, name asc',
+            'SELECT id, name FROM products ORDER BY id DESC, name ASC',
             $sql->select('products', ['id', 'name'], [['id', 'desc'], ['name', 'asc']])
+        );
+    }
+
+    public function testSelectWithCapitalizedKeywords()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT id, name FROM products ORDER BY id DESC',
+            $sql->select('products', ['id', 'name'], [['id', 'desc']])
         );
     }
 }
