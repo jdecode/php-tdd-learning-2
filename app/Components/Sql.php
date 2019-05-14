@@ -6,9 +6,10 @@ class Sql
 {
 
     private $sql = '';
-    public function select($table, $columns = [], $order_by = [], $limit_offset = [], $agg_data = [])
+    public function select($table, $columns = [], $order_by = [], $limit_offset = [], $agg_data = [], $group_by = [])
     {
         $this->sql = "SELECT " . $this->getColumns($columns, $agg_data) . " FROM $table";
+        $this->groupBy($group_by);
         $this->orderBy($order_by);
         $this->limit($limit_offset);
 
@@ -28,6 +29,15 @@ class Sql
             $_columns = "*, $_columns";
         }
         return $_columns;
+    }
+
+    public function groupBy($group_by = [])
+    {
+        $_group_by = "";
+        if (!empty($group_by)) {
+            $_group_by = implode(", ", $group_by);
+            $this->sql .= " GROUP BY $_group_by";
+        }
     }
 
     public function limit($limit_offset = [])

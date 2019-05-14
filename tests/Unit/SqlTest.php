@@ -99,4 +99,13 @@ class SqlTest extends TestCase
             $sql->select('products', [], [], [], ["max", "cost"])
         );
     }
+
+    public function testSelectGroupBy()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT MAX("cost") FROM products GROUP BY cost',
+            $sql->select('products', [], [], [], ["max", "cost"], ["cost"])
+        );
+    }
 }
