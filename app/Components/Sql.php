@@ -103,20 +103,22 @@ class Sql
         }
     }
 
-    public function insert($table, $column_data = [])
+    public function insert($table, $columns = [], $data = [])
     {
-        if(empty($table) || empty($column_data)) {
+        if(empty($table) || empty($columns) || count($columns) != count($data[0])) {
             return;
         }
         $this->sql = "INSERT INTO $table";
-        $this->createColumnDataQuery($column_data);
+        $this->createColumnDataQuery($columns, $data);
         return $this->sql;
     }
 
-    private function createColumnDataQuery($column_data = [])
+    private function createColumnDataQuery($columns = [], $data = [])
     {
-        $data = implode('", "', $column_data);
-        $columns = implode('", "', array_keys($column_data));
+        $_columns = implode('", "', $columns);
+        foreach ($data as $values) {
+            
+        }
         $this->sql .= "(\"$columns\") VALUES (\"$data\")";
     }
 }
