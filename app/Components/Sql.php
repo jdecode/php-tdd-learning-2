@@ -28,7 +28,7 @@ class Sql
         return $this->sql;
     }
 
-    public function getColumns($columns = [], $agg_data = [], $distinct = [])
+    private function getColumns($columns = [], $agg_data = [], $distinct = [])
     {
         $_columns = '*';
         if (count($columns)) {
@@ -46,7 +46,7 @@ class Sql
         return $_columns;
     }
 
-    public function join($join = [], $table)
+    private function join($join = [], $table)
     {
         if(empty($join)) {
             return;
@@ -57,7 +57,7 @@ class Sql
         $this->sql .= " JOIN $join_table ON $table.$table_column = $join_table.$join_table_column";
     }
 
-    public function groupBy($group_by = [])
+    private function groupBy($group_by = [])
     {
         $_group_by = "";
         if (!empty($group_by)) {
@@ -66,7 +66,7 @@ class Sql
         }
     }
 
-    public function limit($limit_offset = [])
+    private function limit($limit_offset = [])
     {
         $limit = "";
         $offset = "";
@@ -85,7 +85,7 @@ class Sql
         $this->sql .= " $limit$offset";
     }
 
-    public function orderBy($order_by = [])
+    private function orderBy($order_by = [])
     {
 
         if (!empty($order_by)) {
@@ -101,5 +101,22 @@ class Sql
                 }
             }
         }
+    }
+
+    public function insert($table, $column_data = [])
+    {
+        if(empty($table) || empty($column_data)) {
+            return;
+        }
+        $this->sql = "INSERT INTO $table";
+        $this->createColumnDataQuery($column_data);
+        return $this->sql;
+    }
+
+    private function createColumnDataQuery($column_data = [])
+    {
+        $data = implode('", "', $column_data);
+        $columns = implode('", "', array_keys($column_data));
+        $this->sql .= "(\"$columns\") VALUES (\"$data\")";
     }
 }

@@ -136,5 +136,14 @@ class SqlTest extends TestCase
             $sql->select('products', [], [], [], [], [], [], ["categories", "category_id"])
         );
     }
+
+    public function testInsertOneRow()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'INSERT INTO products("id", "name", "cost", "color") VALUES ("1", "apple", "100", "red")',
+            $sql->insert('products', ["id" => 1, "name" => "apple", "cost" => 100, "color" => "red"])
+        );
+    }
     
 }
