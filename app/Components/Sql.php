@@ -13,10 +13,15 @@ class Sql
         $limit_offset = [],
         $agg_data = [],
         $group_by = [],
-        $distinct = []
+        $distinct = [],
+        $join = []
     )
     {
+        if(empty($table)) {
+            return $this->sql;
+        }
         $this->sql = "SELECT " . $this->getColumns($columns, $agg_data, $distinct) . " FROM $table";
+        $this->join($join, $table);
         $this->groupBy($group_by);
         $this->orderBy($order_by);
         $this->limit($limit_offset);
@@ -39,6 +44,17 @@ class Sql
             $_columns = "DISTINCT ".implode($distinct, ", ");
         }
         return $_columns;
+    }
+
+    public function join($join = [], $table)
+    {
+        if(empty($join)) {
+            return;
+        }
+        $join_table = $join[0];
+        $join_table_column = $join[2] ?? "id";
+        $table_column = $join[1];
+        $this->sql .= " JOIN $join_table ON $table.$table_column = $join_table.$join_table_column";
     }
 
     public function groupBy($group_by = [])

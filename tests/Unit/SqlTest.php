@@ -118,5 +118,23 @@ class SqlTest extends TestCase
             $sql->select('products', [], [], [], [], [], ["name"])
         );
     }
+
+    public function testSelectJoin()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT * FROM products JOIN categories ON products.category_id = categories.id',
+            $sql->select('products', [], [], [], [], [], [], ["categories", "category_id", "id"])
+        );
+    }
+
+    public function testSelectJoinWithDefaultAsId()
+    {
+        $sql = new Sql();
+        $this->assertEquals(
+            'SELECT * FROM products JOIN categories ON products.category_id = categories.id',
+            $sql->select('products', [], [], [], [], [], [], ["categories", "category_id"])
+        );
+    }
     
 }
