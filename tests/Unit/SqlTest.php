@@ -109,14 +109,14 @@ class SqlTest extends TestCase
         );
     }
 
-    /*
+    
     public function testSelectDistinct()
     {
         $sql = new Sql();
         $this->assertEquals(
             'SELECT DISTINCT name FROM products',
-            $sql->select('products', [], [], [], ["max", "cost"], ["cost"], ["distinct", ["name"]])
+            $sql->select('products', [], [], [], [], [], ["name"])
         );
     }
-    */
+    
 }

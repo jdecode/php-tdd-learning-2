@@ -6,7 +6,15 @@ class Sql
 {
 
     private $sql = '';
-    public function select($table, $columns = [], $order_by = [], $limit_offset = [], $agg_data = [], $group_by = [], $distinct = [])
+    public function select(
+        $table,
+        $columns = [],
+        $order_by = [],
+        $limit_offset = [],
+        $agg_data = [],
+        $group_by = [],
+        $distinct = []
+    )
     {
         $this->sql = "SELECT " . $this->getColumns($columns, $agg_data, $distinct) . " FROM $table";
         $this->groupBy($group_by);
@@ -26,6 +34,9 @@ class Sql
         }
         if (isset($agg_data[2])) {
             $_columns = "*, $_columns";
+        }
+        if (count($distinct)) {
+            $_columns = "DISTINCT ".implode($distinct, ", ");
         }
         return $_columns;
     }
