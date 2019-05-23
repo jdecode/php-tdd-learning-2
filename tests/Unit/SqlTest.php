@@ -151,7 +151,14 @@ class SqlTest extends TestCase
         $sql = new Sql();
         $this->assertEquals(
             'INSERT INTO products("id", "name", "cost", "color") VALUES (1, "apple", 100, "red"), (2, "orange", 50, "orange")',
-            $sql->insert('products', ["id", "name", "cost","color"], [[1, "apple", 100, "red"],[1, "orange", 100, "orange"]])
+            $sql->insert(
+                'products',
+                ["id", "name", "cost","color"],
+                [
+                    [1, "apple", 100, "red"],
+                    [2, "orange", 50, "orange"]
+                ]
+            )
         );
     }
     

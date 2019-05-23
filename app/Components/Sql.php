@@ -116,9 +116,18 @@ class Sql
     private function createColumnDataQuery($columns = [], $data = [])
     {
         $_columns = implode('", "', $columns);
+        $_values = " VALUES ";
+        $first = true;
         foreach ($data as $values) {
-            
+            if(!$first) {
+                $_values .= ', ';
+            }
+            $first = false;
+            $_values .= '(' . (is_numeric($values[0]) ? $values[0] : "\"{$values[0]}\"") . ', ';
+            $_values .= (is_numeric($values[1]) ? $values[1] : "\"{$values[1]}\"") . ', ';
+            $_values .= (is_numeric($values[2]) ? $values[2] : "\"{$values[2]}\"") . ', ';
+            $_values .= (is_numeric($values[3]) ? $values[3] : "\"{$values[3]}\"") . ')';
         }
-        $this->sql .= "(\"$columns\") VALUES (\"$data\")";
+        $this->sql .= "(\"$_columns\")$_values";
     }
 }
